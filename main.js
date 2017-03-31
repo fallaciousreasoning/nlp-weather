@@ -1,5 +1,9 @@
 const moment = require('moment');
 
+const forecastConfig = require('./forecast.io-config');
+const Forecast = require('./forecast.io');
+const forecastClient = new Forecast(forecastConfig.token);
+
 let natural = require('natural');
 natural.LancasterStemmer.attach();
 
@@ -85,3 +89,6 @@ const evaluateSentence = (sentence) => {
 testSentences.forEach(sentence => {
     console.log(evaluateSentence(sentence));
 });
+
+forecastClient.forecast(-43.5321,172.6362)
+    .then(console.log);
