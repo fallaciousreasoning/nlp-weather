@@ -1,0 +1,9 @@
+﻿{
+    "name": "weather",
+    "version": 0.1,
+    "startup": "weather-module.js",
+    "command":"weather",
+    "help": [
+        [ "A natural language based weather module. (i.e. What's the weather in Christchurch tomorrow?)" ]
+    ]
+}
