@@ -7,6 +7,7 @@ class City {
     constructor(record) {
         this.country = record[0];
         this.city = record[1];
+        this.name = record[1].toLowerCase();
         this.lat = record[2];
         this.lng = record[3];
         this.alt = record[4];
@@ -15,11 +16,11 @@ class City {
 
 // Trees for storing cities
 const cityTree = new Tree((a, b) => {
-    if (a.city < b.city) {
+    if (a.name < b.name) {
         return -1;
     }
 
-    if (a.city > b.city) {
+    if (a.name > b.name) {
         return 1;
     }
 
@@ -57,16 +58,23 @@ const inputStream = fs.createReadStream('world-cities.csv');
 const inputText = fs.readFileSync('world-cities.csv');
 parser.write(inputText);
 
-module.exports = {
-    exists: city => {
-        return this.get(city) !== null;
-    },
-
-    get: city => {
-        if (city instanceof String) {
-            return cityTree.find({city: city});
+const getCity = city => {
+        if (typeof city === 'string') {
+            return cityTree.find({name: city.toLowerCase()});
         }
 
         return cityTree.find(city);
+}
+
+module.exports = {
+    exists: city => {
+        return getCity(city) !== null;
+    },
+
+    get: getCity,
+
+    citiesInTokens: tokens => {
+        const cities = tokens.map(token => getCity(token)).filter(city => city !== null);
+        return cities;
     }
 }
