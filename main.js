@@ -111,9 +111,11 @@ const evaluateSentence = (sentence) => {
     });
 }
 
-testSentences.forEach(sentence => {
-    const weather = evaluateSentence(sentence);
-    if (!weather) return;
+exports.parse = evaluateSentence;
 
-    weather.get().then(forecast => console.log(`${forecast}\n`));
-});
+// testSentences.forEach(sentence => {
+//     const weather = evaluateSentence(sentence);
+//     if (!weather) return;
+
+//     weather.get().then(forecast => console.log(`${forecast}\n`));
+// });
