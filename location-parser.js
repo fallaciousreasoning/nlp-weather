@@ -53,9 +53,7 @@ parser.on('readable', () => {
     }
 });
 
-const inputStream = fs.createReadStream('world-cities.csv');
-
-const inputText = fs.readFileSync('world-cities.csv');
+const inputText = fs.readFileSync(__dirname + '//world-cities.csv');
 parser.write(inputText);
 
 const getCity = city => {
