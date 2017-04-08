@@ -55,7 +55,10 @@ class Weather {
     }
 
     get() {
-        return forecastClient.forecast(this.city.lat, this.city.lng);
+        return forecastClient.forecast(this.city.lat, this.city.lng)
+            .then(forecast => {
+                return `Weather summary for ${this.city.city} for ${this.date}\n${forecast.daily.summary}`;
+            });
     }
 }
 
@@ -110,5 +113,5 @@ testSentences.forEach(sentence => {
     if (!weather) return;
     
     console.log(weather);
-    weather.get().then(result => console.log(result.daily.summary));
+    weather.get().then(console.log);
 });
