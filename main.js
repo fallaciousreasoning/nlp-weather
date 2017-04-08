@@ -4,15 +4,16 @@ const forecastConfig = require('./forecast.io-config');
 const Forecast = require('./forecast.io');
 const forecastClient = new Forecast(forecastConfig.token);
 
-require('./location-parser');
+const locationHelper = require('./location-parser');
 
 let natural = require('natural');
 natural.LancasterStemmer.attach();
 
 let testSentences = [
+    "What's the weather like in Auckland?",
     "What's the weather like today?",
    "How's the weather?",
-    "What's the weather tomorrow?",
+    "What's the weather tomorrow in Sydney?",
     "Weather tomorrow?",
     "Weather next friday?",
     "What's the weather on Thursday?",
@@ -45,9 +46,16 @@ daysOfWeek.map(doW => doW.tokenizeAndStem());
 dates = dates.map(date => date.tokenizeAndStem());
 
 class Weather {
-    constructor(query, date) {
+    constructor(query, date, city) {
         this.query = query;
         this.date = date;
+        this.city = city;
+
+        this.get = this.get.bind(this);
+    }
+
+    get() {
+        return forecastClient.forecast(this.city.lat, this.city.lng);
     }
 }
 
@@ -85,12 +93,22 @@ const evaluateSentence = (sentence) => {
 
     let date = moment().add(dayOffset, 'days');
 
-    return new Weather(sentence, date._d);
+    let cities = locationHelper.citiesInTokens(tokenized);
+
+    // More dodginess, we default to the first city.
+    // If we didn't get any, use Christchurch, because why not?
+    return new Weather(sentence, date._d, cities[0] || {
+        city: "Christchurch",
+        country: "New Zealand",
+        lat: -43.5321,
+        lng: 172.6362
+    });
 }
 
 testSentences.forEach(sentence => {
-    console.log(evaluateSentence(sentence));
+    const weather = evaluateSentence(sentence);
+    if (!weather) return;
+    
+    console.log(weather);
+    weather.get().then(result => console.log(result.daily.summary));
 });
-
-forecastClient.forecast(-43.5321,172.6362)
-    .then(console.log);
