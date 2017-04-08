@@ -55,9 +55,12 @@ class Weather {
     }
 
     get() {
+        const dayOffset = moment(this.date).diff(moment(), 'days');
+
         return forecastClient.forecast(this.city.lat, this.city.lng)
             .then(forecast => {
-                return `Weather summary for ${this.city.city} for ${this.date}\n${forecast.daily.summary}`;
+                const dayWeather = forecast.daily.data[dayOffset];
+                return `Weather summary for ${this.city.city} for ${this.date}\n${Math.round(dayWeather.temperatureMax)}°C to ${Math.round(dayWeather.temperatureMin)}°C - ${dayWeather.summary}`;
             });
     }
 }
@@ -112,6 +115,5 @@ testSentences.forEach(sentence => {
     const weather = evaluateSentence(sentence);
     if (!weather) return;
     
-    console.log(weather);
-    weather.get().then(console.log);
+    weather.get().then(forecast => console.log(`${forecast}\n`));
 });
