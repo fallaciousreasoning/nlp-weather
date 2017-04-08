@@ -4,6 +4,8 @@ const forecastConfig = require('./forecast.io-config');
 const Forecast = require('./forecast.io');
 const forecastClient = new Forecast(forecastConfig.token);
 
+require('./location-parser');
+
 let natural = require('natural');
 natural.LancasterStemmer.attach();
 
