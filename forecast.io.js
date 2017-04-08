@@ -13,7 +13,7 @@ module.exports = class Forecast {
     }
 
     forecast(lat, lng) {
-        const url = `${apiEndpoint}/${this.token}/${lat},${lng}`;
+        const url = `${apiEndpoint}/${this.token}/${lat},${lng}?units=si`;
         return fetch(url).then(response => response.json());
     }
 }
