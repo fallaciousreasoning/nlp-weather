@@ -12,12 +12,12 @@ natural.LancasterStemmer.attach();
 let testSentences = [
     "What's the weather like in Auckland?",
     "What's the weather like today?",
-   "How's the weather?",
+    "How's the weather?",
     "What's the weather tomorrow in Sydney?",
     "Weather tomorrow?",
     "Weather next friday?",
     "What's the weather on Thursday?",
-   "The fox doesn't know whether to jump the lazy dog"
+    "The fox doesn't know whether to jump the lazy dog"
 ];
 
 let triggers = [
@@ -114,6 +114,6 @@ const evaluateSentence = (sentence) => {
 testSentences.forEach(sentence => {
     const weather = evaluateSentence(sentence);
     if (!weather) return;
-    
+
     weather.get().then(forecast => console.log(`${forecast}\n`));
 });
