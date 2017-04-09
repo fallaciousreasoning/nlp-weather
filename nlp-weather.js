@@ -9,17 +9,6 @@ const locationHelper = require('./location-parser');
 let natural = require('natural');
 natural.LancasterStemmer.attach();
 
-let testSentences = [
-    "What's the weather like in Auckland?",
-    "What's the weather like today?",
-    "How's the weather?",
-    "What's the weather tomorrow in Sydney?",
-    "Weather tomorrow?",
-    "Weather next friday?",
-    "What's the weather on Thursday?",
-    "The fox doesn't know whether to jump the lazy dog"
-];
-
 let triggers = [
     "Weather",
 ];
@@ -55,7 +44,7 @@ class Weather {
     }
 
     get() {
-        const dayOffset = moment(this.date).diff(moment(), 'days');
+        const dayOffset = Math.min(6, Math.max(moment(this.date).diff(moment(), 'days'), 0));
 
         return forecastClient.forecast(this.city.lat, this.city.lng)
             .then(forecast => {
@@ -113,9 +102,3 @@ const evaluateSentence = (sentence) => {
 
 exports.parse = evaluateSentence;
 
-// testSentences.forEach(sentence => {
-//     const weather = evaluateSentence(sentence);
-//     if (!weather) return;
-
-//     weather.get().then(forecast => console.log(`${forecast}\n`));
-// });
