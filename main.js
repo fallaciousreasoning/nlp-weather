@@ -1,4 +1,5 @@
 const nlpWeather = require('./nlp-weather');
+const readline = require('readline');
 
 let testSentences = [
     "What's the weather like in Auckland?",
@@ -17,3 +18,28 @@ testSentences.forEach(sentence => {
 
     weather.get().then(forecast => console.log(`Evaluating sentence "${sentence}"\n===========================================================================\n${forecast}\n===========================================================================\n`));
 });
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+inputLoop = () => {
+    rl.question("Enter query (or test, or exit): ", answer => {
+        if (answer.toLowerCase() === 'exit') return;
+
+        const weather = nlpWeather.parse(answer);
+        if (!weather) {
+            console.log('Was that really about the weather?');
+            inputLoop();
+            return;
+        }
+
+        weather.get().then(summary => {
+            console.log(summary);
+            inputLoop();
+        });
+    });
+};
+
+inputLoop();
