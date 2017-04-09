@@ -1,4 +1,4 @@
-const nlpWeather = require('./main');
+const nlpWeather = require('./nlp-weather');
 
 exports.match = (event) => {
     return !!nlpWeather.parse(event.body);
