@@ -12,21 +12,33 @@ let testSentences = [
     "The fox doesn't know whether to jump the lazy dog"
 ];
 
-testSentences.forEach(sentence => {
-    const weather = nlpWeather.parse(sentence);
-    if (!weather) return;
+const test = () => {
+    const testPromises = testSentences.map(sentence => {
+        const weather = nlpWeather.parse(sentence);
+        if (!weather) return;
 
-    weather.get().then(forecast => console.log(`Evaluating sentence "${sentence}"\n===========================================================================\n${forecast}\n===========================================================================\n`));
-});
+        return weather.get().then(forecast => console.log(`Evaluating sentence "${sentence}"\n===========================================================================\n${forecast}\n===========================================================================\n`));
+    });
+
+    return Promise.all(testPromises);
+}
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-inputLoop = () => {
+const inputLoop = () => {
     rl.question("Enter query (or test, or exit): ", answer => {
-        if (answer.toLowerCase() === 'exit') return;
+        if (answer.toLowerCase() === 'exit') {
+            process.exit(0);
+            return;
+        }
+        if (answer.toLowerCase() == 'test') {
+            console.log('running tests...');
+            test().then(inputLoop);
+            return;
+        }
 
         const weather = nlpWeather.parse(answer);
         if (!weather) {
