@@ -5,3 +5,14 @@ Notes:
 - This is really, really, untested (here be dragons)
 - This will almost certainly break with timezones (timezones are the worst)
 
+
+# Instructions (which might even work, if you're lucky)
+1. Clone the repository
+`git clone https://github.com/fallaciousreasoning/nlp-weather.git`
+
+2. Install npm packages
+`npm install`
+
+3. Cross, fingers, hope that I actually saved all the packages
+
+4. Cry; install packages that weren't saved
