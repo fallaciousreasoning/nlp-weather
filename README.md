@@ -8,11 +8,21 @@ Notes:
 
 # Instructions (which might even work, if you're lucky)
 1. Clone the repository
-`git clone https://github.com/fallaciousreasoning/nlp-weather.git`
+
+        git clone https://github.com/fallaciousreasoning/nlp-weather.git
 
 2. Install npm packages
-`npm install`
+
+        npm install
 
 3. Cross, fingers, hope that I actually saved all the packages
 
 4. Cry; install packages that weren't saved
+
+5. Run the program
+
+        npm start
+
+    or
+
+        node main.js
